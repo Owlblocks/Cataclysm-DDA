@@ -1655,7 +1655,8 @@ diag_eval_dbl_f vitamin_eval( char scope, std::vector<diag_value> const &params,
         }
         if( item_location const *const itm = actor->get_const_item(); itm != nullptr ) {
             const nutrients &nutrient_data = default_character_compute_effective_nutrients( *itm->get_item() );
-            return static_cast<int>( nutrient_data.vitamins().count( vitamin_id( id.str( d ) ) ) );
+            const auto& v = nutrient_data.vitamins().find(vitamin_id(id.str(d)));
+            return v != nutrient_data.vitamins().end() ? v->second : 0;
         }
         debugmsg( "Tried to access vitamins of a non-Character/non-item talker" );
         return 0;
